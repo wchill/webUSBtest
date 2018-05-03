@@ -3,7 +3,8 @@
     <title>WebUSB Demo</title>
     <script>
     document.addEventListener('DOMContentLoaded', event => {
-  let button = document.getElementById('connect')
+  let button = document.getElementById('connect');
+	    let bbt = document.getElementById('connectbt');
 
   button.addEventListener('click', async() => {
     let device;
@@ -24,9 +25,29 @@
     }
 	  await device.close()
   })
-})</script>
+})
+	  bbt.addEventListener('click', async() => {
+    let device;
+    try {
+      device = await navigator.bluetooth.requestDevice({
+        filters: [{
+          services: [0x1812]
+        }]
+      })
+
+      console.log('open')
+      await device.gatt.connect()
+      console.log('opened:', device)
+    } catch (error) {
+      console.log(error)
+    }
+	  await device.close()
+  })
+})
+	  </script>
   </head>
   <body>
     <button id="connect">Connect</button>
+    <button id="connectbt">Connect BT</button>
   </body>
 </html>
