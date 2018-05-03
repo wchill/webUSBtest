@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title>WebUSB Demo</title>
+    <script>
+    document.addEventListener('DOMContentLoaded', event => {
+  let button = document.getElementById('connect')
+
+  button.addEventListener('click', async() => {
+    let device;
+    const VENDOR_ID = 1406;
+    
+    try {
+      device = await navigator.usb.requestDevice({
+        filters: [{
+          vendorId: VENDOR_ID
+        }]
+      })
+
+      console.log('open')
+      await device.open()
+      console.log('opened:', device)
+    } catch (error) {
+      console.log(error)
+    }
+	  await device.close()
+  })
+})</script>
+  </head>
+  <body>
+    <button id="connect">Connect</button>
+  </body>
+</html>
